@@ -1,0 +1,28 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Binaries & distribution
+*.dmg
+*.app
+*.ipa
+*.zip
+
+# Swift Package Manager
+.build/
+Packages/
+
+# CocoaPods (if ever added)
+Pods/
+
+# Compiled output
+*.o
+*.dSYM/

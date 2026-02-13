@@ -1,0 +1,68 @@
+import SwiftUI
+
+/// Main window layout: sidebar + library grid, with now-playing bar at the bottom
+struct ContentView: View {
+    @EnvironmentObject var libraryVM: LibraryViewModel
+    @EnvironmentObject var playerVM: PlayerViewModel
+
+    @State private var showPlayer: Bool = false
+    @State private var keyMonitor: Any?
+
+    var body: some View {
+        NavigationSplitView {
+            SidebarView()
+        } detail: {
+            VStack(spacing: 0) {
+                // Library grid takes most of the space
+                LibraryGridView()
+
+                // Now playing bar at the bottom (when a book is loaded)
+                if playerVM.currentBook != nil {
+                    Divider()
+                    NowPlayingBar(showPlayer: $showPlayer)
+                }
+            }
+        }
+        .sheet(isPresented: $showPlayer) {
+            PlayerView()
+                .environmentObject(playerVM)
+                .frame(minWidth: 740, minHeight: 400)
+        }
+        .onAppear {
+            setupSpacebarMonitor()
+        }
+        .onDisappear {
+            if let monitor = keyMonitor {
+                NSEvent.removeMonitor(monitor)
+                keyMonitor = nil
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+            // Save position when the app quits
+            playerVM.audioService.stop()
+        }
+    }
+
+    /// Intercepts spacebar globally within the app window for play/pause.
+    /// Ignores it when a text field has focus so search still works.
+    private func setupSpacebarMonitor() {
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            // Space key = keyCode 49
+            guard event.keyCode == 49 else { return event }
+
+            // Don't intercept if a text field is focused (e.g., the search bar)
+            if let responder = event.window?.firstResponder,
+               responder is NSTextView || responder is NSTextField {
+                return event
+            }
+
+            // Toggle play/pause if a book is loaded
+            if playerVM.currentBook != nil {
+                playerVM.audioService.togglePlayPause()
+                return nil // consume the event
+            }
+
+            return event
+        }
+    }
+}
