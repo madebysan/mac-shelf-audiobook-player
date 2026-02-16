@@ -29,8 +29,8 @@ Download `Shelf.dmg` from the [latest release](https://github.com/madebysan/mac-
 Requires Xcode 15+ and macOS 14 (Sonoma) or later.
 
 ```bash
-git clone https://github.com/madebysan/shelf.git
-cd shelf
+git clone https://github.com/madebysan/mac-shelf-audiobook-player.git
+cd mac-shelf-audiobook-player
 open Shelf.xcodeproj
 ```
 
