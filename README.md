@@ -30,6 +30,10 @@ Browse, listen, bookmark, and pick up where you left off.</p>
 
 Download `Shelf.dmg` from the [latest release](https://github.com/madebysan/shelf/releases/latest), open it, and drag Shelf to your Applications folder.
 
+## Free audio to get started
+
+[Open Culture](https://www.openculture.com/freeaudiobooks) maintains a curated list of 1,000+ free audiobooks — classics from Twain, Orwell, Austen, and more. Download the MP3s, point Shelf at the folder, and you're listening.
+
 ## Build from source
 
 Requires Xcode 15+ and macOS 14 (Sonoma) or later.
